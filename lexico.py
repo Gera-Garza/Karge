@@ -1,39 +1,7 @@
 import ply.lex as lex
 import pathlib
 
-# # Analisis Lexico
-# reservadas = [
-#     'PROGRAM',
-#     'INT',
-#     'FLOAT',
-#     'IF',
-#     'ELSE',
-#     'READ',
-#     'VOID',
-#     'RETURN',
-#     'FOR',
-#     'WHILE',
-#
-# ]
-#
-# tokens = reservadas + [
-#
-#     # ; { } , = ( ) [ ]
-#     'SEMICOLON', 'L_BRACE', 'R_BRACE',
-#     'COMMA', 'ASSIGN', 'L_PARENTHESIS', 'R_PARENTHESIS',
-#     'L_BRACKET', 'R_BRACKET',
-#
-#     # operators + - * /
-#     'PLUS', 'MINUS', 'MULT', 'DIV',
-#
-#     # bool > < != == && ||
-#     'GREATER_THAN', 'LESS_THAN', 'DIFF_THAN',
-#     'EQUALS_TO', 'AND', 'OR',
-#
-#     # Constants
-#     'CONST_ID', 'CONST_INT', 'CONST_FLOAT'
-# ]
-
+# Analisis Lexico
 reservadas = [
     'PROGRAM',
     'ID',
