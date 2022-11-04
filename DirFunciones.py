@@ -7,7 +7,6 @@ class dirFunc():
 
     def añadeFn(self, NomFun, TipoFun, TipoRtn, ListaPar=[]):
         self.dirFunciones[NomFun] = {
-
             'tipo': TipoFun,
             'nombre': NomFun,
             'tipoReturn': TipoRtn,
