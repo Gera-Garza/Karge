@@ -1,0 +1,19 @@
+PROGRAM test;
+var{
+	int a,b,c;
+	float d,e,f;
+}
+void uno(){
+	print("TEST");
+}
+int dos(int x,int y){
+	return x+y
+}
+
+main{
+	print("holamundo");
+	uno();
+	a = 2;
+	b = 3;
+	dos(a,b);
+}
