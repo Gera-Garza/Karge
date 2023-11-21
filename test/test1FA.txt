@@ -1,0 +1,57 @@
+program  test1
+var
+ int fac1,fact2,sort1,sort2;
+
+ void factorialC (int num)
+ begin
+ 	var
+ 	int res,x;
+ 	x=1;
+ 	res=0;
+ 	if(num<0) {
+ 		res=0;
+ 	}
+ 	else{
+ 		if(numero==0){
+ 			res=1;
+ 		}
+ 		else{
+ 			for(x;x<num;x++){
+ 				res = res*x
+ 			}
+ 		}
+ 	}
+
+ 	print("Este es el resultado factorial del cliclico ");
+ 	print(res);
+ endfun
+
+ int factorialR (int num)
+ begin
+ 	var
+ 	int res,x;
+ 	x=num;
+ 	res=0;
+    if(num < 0){
+        res=0;
+    }
+    else{
+        if(n > 1){
+            res= num*factorialC(num-1);
+        }
+        else{
+            res = 1;
+        }
+
+    }
+    return res;
+
+ 	print(res);
+ endfun
+
+ int main()
+ begin
+ 	factorialC(5);
+ 	print("Este es el resultado factorial del recursivo ");
+ 	print(factorialR(4))
+ end

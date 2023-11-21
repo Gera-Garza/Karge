@@ -150,7 +150,7 @@ def t_error(t):
 
 
 
-codigo = pathlib.Path("codigo.txt").read_text(encoding="utf-8")
+codigo = pathlib.Path("/test/codigo.txt").read_text(encoding="utf-8")
 
 lexer = lex.lex()
 lexer.input(codigo)
