@@ -1,4 +1,4 @@
-program  test1
+program test1;
 var
  int fac1,fact2,sort1,sort2;
 
@@ -54,4 +54,4 @@ var
  	factorialC(5);
  	print("Este es el resultado factorial del recursivo ");
  	print(factorialR(4))
- end
+ endfun

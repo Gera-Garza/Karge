@@ -133,7 +133,7 @@ lexer = lex.lex()
 
 def p_program(p):
     '''
-    program : PROGRAM ID SEMICOLON block
+    program : PROGRAM CONST_ID SEMICOLON block
     '''
 
 def p_block(p):
@@ -150,8 +150,8 @@ def p_declarations(p):
 
 def p_id_list(p):
     '''
-    id_list : ID COMMA id_list
-            | ID
+    id_list : CONST_ID COMMA id_list
+            | CONST_ID
     '''
 
 def p_functions(p):
@@ -163,14 +163,14 @@ def p_functions(p):
 
 def p_function(p):
     '''
-    function : ID
-             | ID ASSIGN expression
+    function : CONST_ID
+             | CONST_ID ASSIGN expression
     '''
 
 def p_params(p):
     '''
-    params : INT ID COMMA params
-           | INT ID
+    params : INT CONST_ID COMMA params
+           | INT CONST_ID
            | empty
     '''
 
@@ -197,7 +197,7 @@ def p_statement(p):
 
 def p_assignment_statement(p):
     '''
-    assignment_statement : ID ASSIGN expression
+    assignment_statement : CONST_ID ASSIGN expression
     '''
 
 def p_if_statement(p):
@@ -223,7 +223,7 @@ def p_return_statement(p):
 
 def p_function_call(p):
     '''
-    function_call : ID LP arguments RP
+    function_call : CONST_ID LP arguments RP
     '''
 
 def p_arguments(p):
@@ -261,7 +261,7 @@ def p_factor(p):
     '''
     factor : CONST_INT
            | CONST_FLOAT
-           | ID
+           | CONST_ID
            | LP expression RP
     '''
 

@@ -1,41 +1,10 @@
 import ply.lex as lex
 import pathlib
 
-# # Analisis Lexico
-# reservadas = [
-#     'PROGRAM',
-#     'INT',
-#     'FLOAT',
-#     'IF',
-#     'ELSE',
-#     'READ',
-#     'VOID',
-#     'RETURN',
-#     'FOR',
-#     'WHILE',
-#
-# ]
-#
-# tokens = reservadas + [
-#
-#     # ; { } , = ( ) [ ]
-#     'SEMICOLON', 'L_BRACE', 'R_BRACE',
-#     'COMMA', 'ASSIGN', 'L_PARENTHESIS', 'R_PARENTHESIS',
-#     'L_BRACKET', 'R_BRACKET',
-#
-#     # operators + - * /
-#     'PLUS', 'MINUS', 'MULT', 'DIV',
-#
-#     # bool > < != == && ||
-#     'GREATER_THAN', 'LESS_THAN', 'DIFF_THAN',
-#     'EQUALS_TO', 'AND', 'OR',
-#
-#     # Constants
-#     'CONST_ID', 'CONST_INT', 'CONST_FLOAT'
-# ]
-
+# Analisis Lexico
 reservadas = [
     'PROGRAM',
+    'VAR',
     'ID',
     'INT',
     'FLOAT',
@@ -69,12 +38,12 @@ reservadas = [
 tokens = reservadas + [
 
     # ; { } , = ( ) [ ]
-    'SEMICOLON', 'L_BRACE', 'R_BRACE',
-    'COMMA', 'ASSIGN', 'L_PARENTHESIS', 'R_PARENTHESIS',
-    'L_BRACKET', 'R_BRACKET',
+    'SEMICOLON', 'LL', 'RL',
+    'COMMA', 'ASSIGN', 'LP', 'RP',
+    'LB', 'RB',
 
     # operators + - * /
-    'PLUS',	'MINUS', 'MULT', 'DIV',
+    'PLUS', 'MINUS', 'MULT', 'DIV',
 
     # bool > < != == && ||
     'GREATER_THAN', 'LESS_THAN', 'DIFF_THAN',
@@ -87,9 +56,9 @@ tokens = reservadas + [
 t_ignore = ' \t\n'
 
 # bool > < != == && ||
-t_GREATER_THAN = r'\>'
-t_LESS_THAN = r'\<'
-t_DIFF_THAN = r'\!='
+t_GREATER_THAN = r'>'
+t_LESS_THAN = r'<'
+t_DIFF_THAN = r'!='
 t_ASSIGN = r'='
 t_EQUALS_TO = r'=='
 t_AND = r'&&'
@@ -103,20 +72,20 @@ t_DIV = r'/'
 
 # ;  { } , = ( ) [ ]
 t_SEMICOLON = r';'
-t_L_BRACE = r'\{'
-t_R_BRACE = r'\}'
+t_LL = r'{'
+t_RL = r'}'
 t_COMMA = r','
-t_L_BRACKET = r'\['
-t_R_BRACKET = r'\]'
-t_L_PARENTHESIS = r'\('
-t_R_PARENTHESIS = r'\)'
+t_LB = r'\['
+t_RB = r'\]'
+t_LP = r'\('
+t_RP = r'\)'
 
 def t_newLine(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
 def t_LETRERO(t):
-    r'\"[a-zA-Z_][a-zA-z0-9_]*\"'
+    r'\"[a-zA-Z_][a-zA-z0-9_ ]*\"'
     return t
 
 def t_COMMENT(t):
@@ -128,12 +97,10 @@ def t_CONST_FLOAT(t):
     t.value = float(t.value)
     return t
 
-
 def t_CONST_INT(t):
     r'\d+'
     t.value = int(t.value)
     return t
-
 
 def t_CONST_ID(t):
     r'[a-zA-Z_][a-zA-z0-9_]*'
@@ -142,21 +109,18 @@ def t_CONST_ID(t):
         t.type = t.value
     return t
 
-
 def t_error(t):
     print("caracter ilegal''%s'" % t.value[0])
-    t.lexer.skip(1);
+    t.lexer.skip(1)
 
-
-
-
-codigo = pathlib.Path("/test/codigo.txt").read_text(encoding="utf-8")
+# Ejemplo de uso
+codigo = pathlib.Path("test/test1FA.txt").read_text(encoding="utf-8")
 
 lexer = lex.lex()
 lexer.input(codigo)
 
 while True:
     tok = lexer.token()
-    if not tok: break
+    if not tok:
+        break
     print(tok)
-
