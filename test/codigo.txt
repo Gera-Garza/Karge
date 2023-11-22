@@ -1,7 +1,7 @@
-PROGRAM test;
+PROGRAM test
 var{
-	int a,b,c;
-	float d,e,f;
+	int a,b[2],c;
+	float d[5],e,f[2][1];
 }
 void uno(){
 	print("TEST");
@@ -10,7 +10,7 @@ int dos(int x,int y){
 	return x+y
 }
 
-main{
+main(){
 	print("holamundo");
 	uno();
 	a = 2;

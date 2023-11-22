@@ -1,4 +1,6 @@
 import pathlib
+import sys
+
 import ply.yacc as yacc
 import ply.lex as lex
 
@@ -20,7 +22,6 @@ contador = 0
 reservadas = [
     'PROGRAM',
     'VAR',
-    'ID',
     'INT',
     'FLOAT',
     'CHAR',
@@ -40,15 +41,14 @@ reservadas = [
     'STDEV',
     'HIST',
     'COLOR',
+    'MAIN',
     'BINS',
     'EDGECOLOR',
     'PLT',
     'XLABEL',
     'YLABEL',
     'TITLE',
-    'SHOW',
-    'BEGIN',
-    'ENDFUN'
+    'SHOW'
 ]
 tokens = reservadas + [
 
@@ -68,7 +68,6 @@ tokens = reservadas + [
     'CONST_ID', 'CONST_INT', 'CONST_FLOAT', 'CONST_CHAR', 'LETRERO'
 ]
 
-t_ignore = ' \t\n'
 
 # bool > < != == && ||
 t_GREATER_THAN = r'>'
@@ -94,6 +93,8 @@ t_LB = r'\['
 t_RB = r'\]'
 t_LP = r'\('
 t_RP = r'\)'
+
+t_ignore = ' \t'
 
 def t_newLine(t):
     r'\n+'
@@ -129,49 +130,83 @@ def t_error(t):
     t.lexer.skip(1)
 
 lexer = lex.lex()
-
-
+###########################################################
+# empieza el parser
+###########################################################
 def p_program(p):
     '''
-    program : PROGRAM CONST_ID SEMICOLON block
+    program : PROGRAM CONST_ID program2
+    '''
+def p_program2(p):
+    '''
+    program2 : varBlock program3 mainBlock
     '''
 
-def p_block(p):
+def p_program3(p):
     '''
-    block : VAR declarations functions
-          | functions
+    program3 : functionBlock program3
+            | empty
+
+    '''
+def p_varBlock(p):
+    '''
+    varBlock : VAR LL var2 RL
+        | empty
     '''
 
-def p_declarations(p):
+def p_var2(p):
     '''
-    declarations : INT id_list SEMICOLON declarations
-                 | empty
-    '''
-
-def p_id_list(p):
-    '''
-    id_list : CONST_ID COMMA id_list
-            | CONST_ID
+    var2 : typeBlock var3
+        | empty
     '''
 
-def p_functions(p):
+def p_var3(p):
     '''
-    functions : VOID function LP params RP compound_statement functions
-              | INT function LP params RP compound_statement functions
-              | empty
+    var3 : CONST_ID var4
+    '''
+def p_var4(p):
+    '''
+    var4 : LB CONST_INT RB var5
+        | COMMA var3
+        | SEMICOLON var2
+    '''
+def p_var5(p):
+    '''
+    var5 : LB CONST_INT RB
+        | empty
+    '''
+def p_typeBlock(p):
+    '''
+    typeBlock : INT
+              | FLOAT
     '''
 
-def p_function(p):
+def p_functionBlock(p):
     '''
-    function : CONST_ID
-             | CONST_ID ASSIGN expression
+    functionBlock : typeBlockFun CONST_ID LP params RP codeBlock
     '''
-
+def p_typeBlockFun(p):
+    '''
+    typeBlockFun : typeBlock
+        | VOID
+    '''
 def p_params(p):
     '''
-    params : INT CONST_ID COMMA params
-           | INT CONST_ID
+    params : typeBlock CONST_ID params2
            | empty
+    '''
+def p_params2(p):
+    '''
+     params2 : COMMA params
+            | empty
+     '''
+def p_mainBlock(p):
+    '''
+    mainBlock : MAIN LP RP codeBlock
+    '''
+def p_codeBlock(p):
+    '''
+    codeBlock : LL varBlock statements RL
     '''
 
 def p_compound_statement(p):
@@ -213,7 +248,8 @@ def p_for_statement(p):
 
 def p_print_statement(p):
     '''
-    print_statement : PRINT LP expression RP
+    print_statement : PRINT LP expression RP SEMICOLON
+        | PRINT LP LETRERO RP SEMICOLON
     '''
 
 def p_return_statement(p):
@@ -270,15 +306,18 @@ def p_empty(p):
     pass
 
 def p_error(p):
-    print(f"Syntax error at {p.value}")
+    if p:
+        print(f"Syntax error at line {p.lineno}: Unexpected token '{p.value}'")
+    else:
+        print("Syntax error: Unexpected end of input")
 
 # Construcción del parser
-parser = yacc.yacc()
+parser = yacc.yacc(debug=True, module= sys.modules[__name__])
 
 # Ejemplo de uso
 if __name__ == '__main__':
     # Lee el código desde un archivo utilizando pathlib.Path
-    file_path = pathlib.Path("test/test1FA.txt")
+    file_path = pathlib.Path("test/codigo.txt")
     if file_path.is_file():
         data = file_path.read_text(encoding="utf-8")
 

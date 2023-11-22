@@ -53,7 +53,6 @@ tokens = reservadas + [
     'CONST_ID', 'CONST_INT', 'CONST_FLOAT', 'CONST_CHAR', 'LETRERO'
 ]
 
-t_ignore = ' \t\n'
 
 # bool > < != == && ||
 t_GREATER_THAN = r'>'
@@ -79,6 +78,8 @@ t_LB = r'\['
 t_RB = r'\]'
 t_LP = r'\('
 t_RP = r'\)'
+
+t_ignore = ' \t'
 
 def t_newLine(t):
     r'\n+'
@@ -114,7 +115,7 @@ def t_error(t):
     t.lexer.skip(1)
 
 # Ejemplo de uso
-codigo = pathlib.Path("test/test1FA.txt").read_text(encoding="utf-8")
+codigo = pathlib.Path("test/codigo.txt").read_text(encoding="utf-8")
 
 lexer = lex.lex()
 lexer.input(codigo)
