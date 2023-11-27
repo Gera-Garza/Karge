@@ -402,6 +402,24 @@ def p_error(p):
 # Construcción del parser
 parser = yacc.yacc(debug=True, module= sys.modules[__name__])
 
+def ejecutar_operacion(operador, operando1, operando2, resultado):
+    # Lógica para ejecutar la operación según el cuádruplo
+    if operador == '+':
+        return operando1 + operando2
+    elif operador == '-':
+        return operando1 - operando2
+    elif operador == '*':
+        return operando1 * operando2
+    elif operador == '/':
+        return operando1 / operando2
+    elif operador == '=':
+        print(f'Asignación: {resultado} = {operando1}')
+
+def leer_cuadruplos():
+    for cuadruplo in cuadruplos:
+        operador, operando1, operando2, resultado = cuadruplo
+        resultado_operacion = ejecutar_operacion(operador, operando1, operando2, resultado)
+        print(f'Resultado de la operación: {resultado_operacion}')
 # Ejemplo de uso
 if __name__ == '__main__':
     # Lee el código desde un archivo utilizando pathlib.Path
@@ -415,3 +433,4 @@ if __name__ == '__main__':
     else:
         print(f"Error: El archivo {file_path} no existe.")
     print(f"estos son los cuadruplos: {cuadruplos}")
+    leer_cuadruplos()
