@@ -1,0 +1,36 @@
+program  test2
+var
+ int fac1,fact2,sort1,sort2;
+
+ void fibonachiC (int num)
+ begin
+ 	var 
+ 	int res,x,a,b,c;
+ 	x=num;
+ 	res=0;
+    if(num == 1){
+        print(¨0¨);
+    }
+    x=3
+    a=0;
+    b=1;
+    c=0;
+
+    print(a);
+    print(¨ ¨);
+    print(b);
+    for(x; x <= num; x++){
+        c = a + b;
+        print(¨ ¨);
+        print(c);
+        a = b;
+        b = c;
+    }
+ endfun
+
+
+ int main()
+ begin
+ 	fibonachiC(5);
+ end
+ 
