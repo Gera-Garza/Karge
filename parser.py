@@ -137,6 +137,7 @@ def p_program(p):
     '''
     program : PROGRAM CONST_ID program2
     '''
+
 def p_program2(p):
     '''
     program2 : varBlock program3 mainBlock
@@ -146,8 +147,8 @@ def p_program3(p):
     '''
     program3 : functionBlock program3
             | empty
-
     '''
+
 def p_varBlock(p):
     '''
     varBlock : VAR LL var2 RL
@@ -160,65 +161,81 @@ def p_var2(p):
         | empty
     '''
 
+
 def p_var3(p):
     '''
     var3 : CONST_ID var4
     '''
+
 def p_var4(p):
     '''
     var4 : LB CONST_INT RB var5
         | COMMA var3
         | SEMICOLON var2
     '''
+
 def p_var5(p):
     '''
     var5 : LB CONST_INT RB
         | empty
     '''
+
 def p_typeBlock(p):
     '''
     typeBlock : INT
               | FLOAT
     '''
 
+
 def p_functionBlock(p):
     '''
-    functionBlock : typeBlockFun CONST_ID LP params RP codeBlock
+    functionBlock : typeBlock CONST_ID LP params RP LL codeBlockR RL
+                | VOID CONST_ID LP params RP LL codeBlock RL
     '''
-def p_typeBlockFun(p):
-    '''
-    typeBlockFun : typeBlock
-        | VOID
-    '''
+
+
 def p_params(p):
     '''
     params : typeBlock CONST_ID params2
            | empty
     '''
+
+
 def p_params2(p):
     '''
      params2 : COMMA params
             | empty
      '''
-def p_mainBlock(p):
-    '''
-    mainBlock : MAIN LP RP codeBlock
-    '''
+
+
 def p_codeBlock(p):
     '''
-    codeBlock : LL varBlock statements RL
-    '''
+     codeBlock :  varBlock statements
+                | statements
+     '''
 
-def p_compound_statement(p):
+def p_codeBlockR(p):
     '''
-    compound_statement : LL statements RL
-    '''
+     codeBlockR :  varBlock statementsR
+                | statementsR
+     '''
+
 
 def p_statements(p):
     '''
-    statements : statement SEMICOLON statements
+    statements : statements statement
                | empty
     '''
+
+
+
+def p_statementsR(p):
+    '''
+    statementsR : statementsR statement
+                | return_statement
+               | empty
+    '''
+
 
 def p_statement(p):
     '''
@@ -226,41 +243,79 @@ def p_statement(p):
               | if_statement
               | for_statement
               | print_statement
-              | return_statement
               | function_call
     '''
 
+
 def p_assignment_statement(p):
     '''
-    assignment_statement : CONST_ID ASSIGN expression
+    assignment_statement : CONST_ID ASSIGN expression SEMICOLON
     '''
+
 
 def p_if_statement(p):
     '''
-    if_statement : IF LP condition RP compound_statement
-                | IF LP condition RP compound_statement ELSE compound_statement
+    if_statement : IF LP condition RP LL statements RL
+                | IF LP condition RP LL statements RL ELSE LL statements RL
     '''
+
 
 def p_for_statement(p):
     '''
-    for_statement : FOR LP assignment_statement SEMICOLON condition SEMICOLON assignment_statement RP compound_statement
+    for_statement : FOR LP assignment_statement condition SEMICOLON assignment_statement RP LL statements RL
     '''
+
 
 def p_print_statement(p):
     '''
-    print_statement : PRINT LP expression RP SEMICOLON
-        | PRINT LP LETRERO RP SEMICOLON
+    print_statement : PRINT LP expression_list RP SEMICOLON
+                   | PRINT LP LETRERO RP SEMICOLON
     '''
+
+def p_expression_list(p):
+    '''
+    expression_list : expression COMMA expression_list
+                   | expression
+    '''
+
+
+def p_expression(p):
+    '''
+    expression : term PLUS expression
+               | term MINUS expression
+               | term
+    '''
+
+
+def p_term(p):
+    '''
+    term : factor MULT term
+         | factor DIV term
+         | factor
+    '''
+
+
+def p_factor(p):
+    '''
+    factor : CONST_INT
+           | CONST_FLOAT
+           | CONST_ID
+           | LP expression RP
+           | function_call
+    '''
+
 
 def p_return_statement(p):
     '''
-    return_statement : RETURN expression
+    return_statement : RETURN expression SEMICOLON
     '''
+
 
 def p_function_call(p):
     '''
-    function_call : CONST_ID LP arguments RP
+    function_call : CONST_ID LP arguments RP SEMICOLON
     '''
+
 
 def p_arguments(p):
     '''
@@ -268,6 +323,7 @@ def p_arguments(p):
               | expression
               | empty
     '''
+
 
 def p_condition(p):
     '''
@@ -279,26 +335,9 @@ def p_condition(p):
               | expression OR expression
     '''
 
-def p_expression(p):
+def p_mainBlock(p):
     '''
-    expression : term PLUS expression
-               | term MINUS expression
-               | term
-    '''
-
-def p_term(p):
-    '''
-    term : factor MULT term
-         | factor DIV term
-         | factor
-    '''
-
-def p_factor(p):
-    '''
-    factor : CONST_INT
-           | CONST_FLOAT
-           | CONST_ID
-           | LP expression RP
+    mainBlock : MAIN LP RP LL codeBlock RL
     '''
 
 def p_empty(p):
@@ -307,10 +346,9 @@ def p_empty(p):
 
 def p_error(p):
     if p:
-        print(f"Syntax error at line {p.lineno}: Unexpected token '{p.value}'")
+        print(f"Syntax error at line {p.lineno}: Unexpected token '{p.value}' regla: {p.type}")
     else:
         print("Syntax error: Unexpected end of input")
-
 # Construcción del parser
 parser = yacc.yacc(debug=True, module= sys.modules[__name__])
 

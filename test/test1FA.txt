@@ -18,9 +18,9 @@ var
  			res=1;
  		}
  		else{
- 			for(x;x<num;x++){
- 				res = res*x;
- 			}
+ 			for(x = 1;x<num;x = x + 1){
+ 		        res = res*x;
+ 	        }
  		}
  	}
 
