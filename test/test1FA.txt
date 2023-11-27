@@ -1,7 +1,7 @@
 program test1
 var
 {
- int fac1,fact2,sort1,sort2;
+ int fac1,fact2,sort1,sort2,resFac;
 }
  void factorialC (int num)
 {
@@ -18,7 +18,7 @@ var
  			res=1;
  		}
  		else{
- 			for(x = 1;x<num;x = x + 1){
+ 			for(x = 1;x<num;x = x + 1;){
  		        res = res*x;
  	        }
  		}
@@ -26,21 +26,23 @@ var
 
  	print("Este es el resultado factorial del cliclico ");
  	print(res);
+ 	resFac = res;
 }
 
  int factorialR (int num)
 {
  	var{
- 	int res,x;
+ 	int resR,y;
  	}
- 	x=num;
- 	res=0;
+ 	y=num;
+ 	resR=0;
     if(num < 0){
-        res=0;
+        resR=0;
     }
     else{
         if(n > 1){
-            res= num*factorialC(num-1);
+            factorialC(num-1)
+            resR= num*resFac;
         }
         else{
             res = 1;

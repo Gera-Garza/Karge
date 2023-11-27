@@ -136,7 +136,7 @@ tabVar = TablaVars()
 cont = 0
 cuadruplos = []
 cuadruplos.append(["goto","main","",""])
-temp=["t1","t2","t3","t4","t5","t6","t7","t8","t9","t10","t11","t12","t13","t14","t15"]
+temp=["t1","t2","t3","t4","t5","t6","t7",'t8']
 psaltos = []
 last_Type = None
 def p_program(p):
@@ -414,6 +414,8 @@ def ejecutar_operacion(operador, operando1, operando2, resultado):
         return operando1 / operando2
     elif operador == '=':
         print(f'Asignación: {resultado} = {operando1}')
+    else:
+        print("acabo")
 
 def leer_cuadruplos():
     for cuadruplo in cuadruplos:
@@ -423,7 +425,7 @@ def leer_cuadruplos():
 # Ejemplo de uso
 if __name__ == '__main__':
     # Lee el código desde un archivo utilizando pathlib.Path
-    file_path = pathlib.Path("test/codigo.txt")
+    file_path = pathlib.Path("test/test1FA.txt")
     if file_path.is_file():
         data = file_path.read_text(encoding="utf-8")
 

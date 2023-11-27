@@ -1,11 +1,9 @@
 import ply.lex as lex
 import pathlib
 
-# Analisis Lexico
 reservadas = [
     'PROGRAM',
     'VAR',
-    'ID',
     'INT',
     'FLOAT',
     'CHAR',
@@ -25,15 +23,14 @@ reservadas = [
     'STDEV',
     'HIST',
     'COLOR',
+    'MAIN',
     'BINS',
     'EDGECOLOR',
     'PLT',
     'XLABEL',
     'YLABEL',
     'TITLE',
-    'SHOW',
-    'BEGIN',
-    'ENDFUN'
+    'SHOW'
 ]
 tokens = reservadas + [
 
