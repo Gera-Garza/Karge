@@ -4,11 +4,12 @@ class TablaVars:
         self.tabla = {}
 
     def add_var(self, nombre, tipo):
+        if nombre in self.tabla:
+            raise Exception(f"Error: La variable {nombre} ya ha sido declarada.")
         self.tabla[nombre] = {
             'nombre': nombre,
             'tipo': tipo,
         }
-        print(self.tabla[nombre])
 
     def clear_tabla(self):
         self.tabla = {}
