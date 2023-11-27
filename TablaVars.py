@@ -10,6 +10,7 @@ class TablaVars:
             'nombre': nombre,
             'tipo': tipo,
         }
+        print(self.tabla[nombre])
 
     def clear_tabla(self):
         self.tabla = {}

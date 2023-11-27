@@ -257,6 +257,8 @@ def p_assignment_statement(p):
     '''
     assignment_statement : CONST_ID ASSIGN expression SEMICOLON
     '''
+    global cuadruplos
+    cuadruplos = cuadruplos + [("=", p[3], p[1])]
 
 
 def p_if_statement(p):
@@ -291,6 +293,17 @@ def p_expression(p):
                | term MINUS expression
                | term
     '''
+    global cont, cuadruplos
+    if (len(p) == 2):
+        p[0] = p[1]
+    elif (p[2] == "+"):
+        cuadruplos = cuadruplos + [("+", p[1], p[3], temp[cont])]
+        p[0] = temp[cont]
+        cont = cont + 1
+    else:
+        cuadruplos = cuadruplos + [("-", p[1], p[3], temp[cont])]
+        p[0] = temp[cont]
+        cont = cont + 1
 
 
 def p_term(p):
@@ -299,6 +312,17 @@ def p_term(p):
          | factor DIV term
          | factor
     '''
+    global cont, cuadruplos
+    if (len(p) == 2):
+        p[0] = p[1]
+    elif (p[2] == "*"):
+        cuadruplos = cuadruplos + [("*", p[1], p[3], temp[cont])]
+        p[0] = temp[cont]
+        cont = cont + 1
+    else:
+        cuadruplos = cuadruplos + [("/", p[1], p[3], temp[cont])]
+        p[0] = temp[cont]
+        cont = cont + 1
 
 
 def p_factor(p):
@@ -309,6 +333,7 @@ def p_factor(p):
            | LP expression RP
            | function_call
     '''
+    p[0] = p[1]
 
 
 def p_return_statement(p):
@@ -340,6 +365,25 @@ def p_condition(p):
               | expression AND expression
               | expression OR expression
     '''
+    global cont, cuadruplos
+    if (len(p) == 2):
+        p[0] = p[1]
+    elif (p[2] == ">"):
+        cuadruplos = cuadruplos + [(">", p[1], p[3], temp[cont])]
+        p[0] = temp[cont]
+        cont = cont + 1
+    elif (p[2] == "<"):
+        cuadruplos = cuadruplos + [("<", p[1], p[3], temp[cont])]
+        p[0] = temp[cont]
+        cont = cont + 1
+    elif (p[2] == "=="):
+        cuadruplos = cuadruplos + [("==", p[1], p[3], temp[cont])]
+        p[0] = temp[cont]
+        cont = cont + 1
+    else:
+        cuadruplos = cuadruplos + [("!=", p[1], p[3], temp[cont])]
+        p[0] = temp[cont]
+        cont = cont + 1
 
 def p_mainBlock(p):
     '''
@@ -371,4 +415,3 @@ if __name__ == '__main__':
     else:
         print(f"Error: El archivo {file_path} no existe.")
     print(f"estos son los cuadruplos: {cuadruplos}")
-    print(f"esta es la tabla de funciones {dirFun}")

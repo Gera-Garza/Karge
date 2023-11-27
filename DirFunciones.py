@@ -13,8 +13,8 @@ class DirFunciones():
             'Recursos': recursos,
             'var': TablaVars(),
             'TipoParams': tipoParams
-
         }
+        print(self.dirFunciones[nombre])
 
     def existeFun(self, NomFun):
         return NomFun in self.dirFunciones
