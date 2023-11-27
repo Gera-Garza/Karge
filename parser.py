@@ -3,6 +3,8 @@ import sys
 
 import ply.yacc as yacc
 import ply.lex as lex
+from DirFunciones import DirFunciones
+from TablaVars import TablaVars
 
 predecende = (
     ('right', 'IF', 'WHILE'),
@@ -13,10 +15,6 @@ predecende = (
     ('left', 'MULTIP', 'DIVIDE'),
     ('left', 'L_PARENTHESIS', 'R_PARENTHESIS')
 )
-
-cuadruplos = []
-cuadruplos.append(["goto","main","",""])
-contador = 0
 
 # Lexico
 reservadas = [
@@ -133,6 +131,14 @@ lexer = lex.lex()
 ###########################################################
 # empieza el parser
 ###########################################################
+dirFun = DirFunciones()
+tabVar = TablaVars()
+cont = 0
+cuadruplos = []
+cuadruplos.append(["goto","main","",""])
+temp=["t1","t2","t3","t4","t5","t6","t7","t8","t9","t10","t11","t12","t13","t14","t15"]
+psaltos = []
+last_Type = None
 def p_program(p):
     '''
     program : PROGRAM CONST_ID program2
@@ -157,26 +163,23 @@ def p_varBlock(p):
 
 def p_var2(p):
     '''
-    var2 : typeBlock var3
-        | empty
+    var2 : typeBlock CONST_ID var3 SEMICOLON var4
     '''
-
+    tabVar.add_var(p[2],p[1])
 
 def p_var3(p):
     '''
-    var3 : CONST_ID var4
+    var3 : COMMA CONST_ID var3
+        | empty
     '''
+    if len(p) > 2:
+        global last_Type
+        tabVar.add_var(p[2], last_Type)
+
 
 def p_var4(p):
     '''
-    var4 : LB CONST_INT RB var5
-        | COMMA var3
-        | SEMICOLON var2
-    '''
-
-def p_var5(p):
-    '''
-    var5 : LB CONST_INT RB
+    var4 : var2
         | empty
     '''
 
@@ -185,6 +188,9 @@ def p_typeBlock(p):
     typeBlock : INT
               | FLOAT
     '''
+    global last_Type
+    last_Type = p[1]
+    p[0] = p[1]
 
 
 def p_functionBlock(p):
@@ -342,7 +348,7 @@ def p_mainBlock(p):
 
 def p_empty(p):
     'empty :'
-    pass
+    p[0]=None
 
 def p_error(p):
     if p:
@@ -364,3 +370,5 @@ if __name__ == '__main__':
         print("Parsing successful.")
     else:
         print(f"Error: El archivo {file_path} no existe.")
+    print(f"estos son los cuadruplos: {cuadruplos}")
+    print(f"esta es la tabla de funciones {dirFun}")

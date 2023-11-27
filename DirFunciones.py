@@ -1,27 +1,26 @@
 import TablaVars
 
 
-class dirFunc():
+class DirFunciones():
     def __init__(self):
         self.dirFunciones = {}
 
-    def añadeFn(self, NomFun, TipoFun, TipoRtn, ListaPar=[]):
-        self.dirFunciones[NomFun] = {
-
-            'tipo': TipoFun,
-            'nombre': NomFun,
-            'tipoReturn': TipoRtn,
+    def addFun(self, nombre, tipoReturn,dirInicio,recursos,TablaVars,tipoParams):
+        self.dirFunciones[nombre] = {
+            'nombre': nombre,
+            'tipoReturn': tipoReturn,
+            "dirInicio": dirInicio,
+            'Recursos': recursos,
             'var': TablaVars(),
+            'TipoParams': tipoParams
+
         }
 
     def existeFun(self, NomFun):
-        if NomFun in self.dirFunciones.keys():
-            return True
-        else:
-            return False
+        return NomFun in self.dirFunciones
 
     def getFun(self, nomFun):
-        if existeFun(nomFun):
+        if self.existeFun(nomFun):
             return self.dirFunciones[nomFun]
         else:
             print("Error:No existe la función")
