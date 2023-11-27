@@ -1,0 +1,24 @@
+PROGRAM test
+var{
+	int a,b[2],c,x,num,res,dosRes;
+	float d[5],e,f[2][1];
+}
+void uno(){
+	print("TEST");
+}
+int dos(int x,int y){
+	return x+y;
+	dosRes = x+y;
+}
+
+main(){
+	print("holamundo");
+	uno();
+	a = 2;
+	for(x = 1;x<num;x = x + 1;){
+	    dos(1,2);
+ 		res = res*dosRes;
+ 	}
+	b = 3;
+	dos(a,b);
+}
